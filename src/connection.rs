@@ -23,7 +23,10 @@ impl RawJaConnection {
         ctx.rt.spawn(async move {
             match conn.create(ka_interval).await {
                 Ok(session) => cb.on_session_creation_success(Arc::new(RawJaSession::new(session))),
-                Err(_) => cb.on_session_creation_failure(),
+                Err(why) => {
+                    log::error!("{why}");
+                    cb.on_session_creation_failure();
+                }
             }
         });
     }

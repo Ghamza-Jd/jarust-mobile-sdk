@@ -21,4 +21,4 @@ bindgen:
 	cargo run -- generate ${src_dir} --language kotlin --out-dir ${out_dir}
 
 build:
-	@cd ${package_dir} && ./gradlew :jarust:assembleRelease
+	@cd ${package_dir} && ./gradlew :jarust:assembleDebug

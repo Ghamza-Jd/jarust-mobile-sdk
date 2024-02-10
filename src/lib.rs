@@ -1,3 +1,5 @@
+#[cfg(target_os = "android")]
+pub mod android;
 mod callback;
 mod config;
 mod connection;
@@ -27,9 +29,12 @@ pub fn raw_jarust_connect(
     let root_namespace = config.root_namespace.unwrap_or(String::from("janus"));
     let config = jarust::jaconfig::JaConfig::new(&config.uri, config.apisecret, &root_namespace);
     ctx.rt.spawn(async move {
-        match jarust::connect(config, jarust::jaconfig::TransportType::Wss).await {
+        match jarust::connect(config, jarust::jaconfig::TransportType::Ws).await {
             Ok(conn) => cb.on_connection_success(Arc::new(RawJaConnection::new(conn))),
-            Err(_) => cb.on_connection_failure(),
+            Err(why) => {
+                log::error!("{why}");
+                cb.on_connection_failure();
+            }
         }
     });
 }

@@ -9,7 +9,7 @@ name = "jarust"
 crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
-jarust = "0.1.5"
+jarust = { version = "*", path = "../jarust/jarust" }
 jarust_plugins = "0.1.5"
 log = "0.4.20"
 log-panics = "2.1.0"
@@ -29,3 +29,5 @@ oslog = "0.2.0"
 
 [target.'cfg(target_os = "android")'.dependencies]
 android_logger = "0.13.3"
+jni = "0.19"
+rustls-platform-verifier = "0.2.0"

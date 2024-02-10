@@ -26,7 +26,10 @@ impl RawJaSession {
                 Ok((handle, receiver)) => {
                     cb.on_attach_success(Arc::new(RawJaHandle::new(handle, receiver)))
                 }
-                Err(_) => cb.on_attach_failure(),
+                Err(why) => {
+                    log::error!("{why}");
+                    cb.on_attach_failure();
+                }
             }
         });
     }
